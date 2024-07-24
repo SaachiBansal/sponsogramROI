@@ -43,4 +43,4 @@ if st.button('Predict'):
     roi = (prediction-budget)/budget * 100
     
     # Display the prediction
-    st.write(f'The predicted Return of Interest is: {roi}')
+    st.write(f'The predicted Return on Investment is: {roi}')

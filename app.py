@@ -3,6 +3,8 @@ import pickle
 import numpy as np
 import sys
 print(f"Python executable: {sys.executable}")
+import sys
+print(f"Python executable: {sys.executable}")
 
 # Load the saved model
 with open('sponsogram/lightgbm_model.pkl', 'rb') as f:
@@ -18,9 +20,13 @@ print("Scaler loaded successfully!")
 st.title('ROI Prediction')
 
 
+st.title('ROI Prediction')
+
+
 
 st.header('Enter the campaign data:')
 
+duration = st.number_input('Campaign Duration', value=0)
 duration = st.number_input('Campaign Duration', value=0)
 budget = st.number_input('Campaign Budget(in rupees)', value=0.0)
 
@@ -34,9 +40,13 @@ avg_comm = st.number_input('Average comments on influencer posts', value=0.0)
 
 totalMetrics = followers*duration*budget/100000
 
+totalMetrics = followers*duration*budget/100000
+
 # Prediction button
 if st.button('Predict'):
     # Create a numpy array of the input features
+    input_features = np.array([[followers,prev_camp, 
+                                eng_rate, avg_likes, avg_comm, totalMetrics]])
     input_features = np.array([[followers,prev_camp, 
                                 eng_rate, avg_likes, avg_comm, totalMetrics]])
     

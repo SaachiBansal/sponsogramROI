@@ -5,12 +5,12 @@ import sys
 print(f"Python executable: {sys.executable}")
 
 # Load the saved model
-with open('sponsogram/lightgbm_model.pkl', 'rb') as f:
+with open('lightgbm_model.pkl', 'rb') as f:
     model = pickle.load(f)
 print("Model loaded successfully.")
 print(type(model))
 
-with open('sponsogram/scaler.pkl', 'rb') as f:
+with open('scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 print("Scaler loaded successfully!")
 
@@ -49,9 +49,6 @@ if st.button('Predict'):
     transformed_roi = scaler.transform(transformed_roi)
         
         # Display the prediction
-    st.write(f'prediction {prediction}')
-    st.write(f'roi {roi}')
-    st.write(f'Transformed roi {transformed_roi}')
     if(roi < 0):
         st.write(f'The predicted Return on Investment is poor')
     elif(roi>=0 and roi < 0.3):

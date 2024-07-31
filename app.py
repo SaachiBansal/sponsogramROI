@@ -7,12 +7,12 @@ import sys
 print(f"Python executable: {sys.executable}")
 
 # Load the saved model
-with open('sponsogram/lightgbm_model.pkl', 'rb') as f:
+with open('lightgbm_model.pkl', 'rb') as f:
     model = pickle.load(f)
 print("Model loaded successfully.")
 print(type(model))
 
-with open('sponsogram/scaler.pkl', 'rb') as f:
+with open('scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 print("Scaler loaded successfully!")
 

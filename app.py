@@ -5,7 +5,7 @@ import sys
 print(f"Python executable: {sys.executable}")
 
 # Load the saved model
-with open('lightgbm_model.pkl', 'rb') as f:
+with open('light_gbm2.pkl', 'rb') as f:
     model = pickle.load(f)
 print("Model loaded successfully.")
 print(type(model))
@@ -26,17 +26,22 @@ st.header('Enter the influencer data:')
 
 followers = st.number_input('Number of followers of the influencer', value=0.0)
 eng_rate = st.number_input('Engagement Rate of the influencer', value=0.0)
-prev_camp = st.number_input('Clicks in previous campaigns of the influencer', value=0.0)
 avg_likes = st.number_input('Average likes on influencer posts', value=0.0)
 avg_comm = st.number_input('Average comments on influencer posts', value=0.0)
 
-totalMetrics = followers*duration*budget/100000
+totalMetrics = followers*eng_rate*budget/100000
+engagementMetrics = duration * avg_likes * avg_comm / 100000
+
+# input_df = {
+#     'influencer_followers': data['Influencer_Followers'],
+#     'Total_Metrics' : [(data['Engagement_Rate'][0] * data['Amount_Spent'][0] * data['Influencer_Followers'][0] )/100000],
+#     'Engagement_Metrics' : (  data['Duration_Days'][0] * data['Avg_Likes'][0] * data['Avg_Comments'][0] / 100000)
+#   }
 
 # Prediction button
 if st.button('Predict'):
     # Create a numpy array of the input features
-    input_features = np.array([[followers,prev_camp, 
-                                eng_rate, avg_likes, avg_comm, totalMetrics]])
+    input_features = np.array([[followers, totalMetrics, engagementMetrics]])
     
     # Make the prediction
     prediction = model.predict(input_features)
@@ -50,16 +55,22 @@ if st.button('Predict'):
     # st.write(f'prediction {prediction}')
     # st.write(f'roi {roi}')
     # st.write(f'Transformed roi {transformed_roi}')
-    if(roi < 0):
+
+
+    #  (copy_x_test['ROI'] < 0.6),
+    # (copy_x_test['ROI'] >= 0.6) & (copy_x_test['ROI'] < 1.2),
+    # (copy_x_test['ROI'] >= 1.2) & (copy_x_test['ROI'] < 1.8),
+    # (copy_x_test['ROI'] >= 1.8) & (copy_x_test['ROI'] < 2.4),
+    # (copy_x_test['ROI'] >= 2.4)
+    
+    if(roi < 0.6):
         st.write(f'The predicted Return on Investment is poor')
-    elif(roi>=0 and roi < 0.3):
+    elif(roi>=0.6 and roi < 1.2):
         st.write(f'The predicted Return on Investment is below average')
-    elif(roi>=0.3 and roi <0.7):
+    elif(roi>=1.2 and roi <1.8):
         st.write(f'The predicted Return on Investment is average')
-    elif(roi>=0.7 and roi <1.1):
+    elif(roi>=1.8 and roi <2.4):
         st.write(f'The predicted Return on Investment is good')
-    elif(roi>=1.1 and roi <1.7):
-        st.write(f'The predicted Return on Investment is very good')
     else:
         st.write(f'The predicted Return on Investment is excellent')
     
